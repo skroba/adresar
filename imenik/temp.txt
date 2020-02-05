@@ -1,0 +1,1 @@
+	private $indexFind = "SELECT * FROM addressdb WHERE name LIKE CONCAT('%', ?, '%') OR  surname LIKE CONCAT('%', ?, '%')  OR  address LIKE CONCAT('%', ?, '%')";
