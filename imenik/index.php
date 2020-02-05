@@ -12,16 +12,14 @@ $path = parse_url($fullUrl);
 
 switch ($path['path']) {
 
-case '/imenik/index.php/new':
-	$app->create();
-	break;
-
 case '/imenik/index.php':
 	$app->index();
+	//return view
 	break;
 
-case '/imenik/':
-	$app->index();
+case '/imenik/index.php/create':
+	$app->create();
+	//return view
 	break;
 
 case '/imenik/index.php/find':

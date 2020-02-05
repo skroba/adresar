@@ -16,7 +16,7 @@ if (isset($_SESSION['message'])) {
 }
 ?>
     <hr>
-      <form action="imenik/index.php/find" method="POST">
+      <form action="/imenik/index.php/find" method="POST">
           <div class="form-group">
             <input type="text" name="search" id="search" placeholder="Find User" label="Find" required>
           </div>
@@ -25,7 +25,18 @@ if (isset($_SESSION['message'])) {
         <div>
           <br>
 
-              <?php if (!empty($_SESSION['data'])) {
+<?php if (!empty($_SESSION['data'])) {
+	if (!isset($_GET['page'])) {
+		$_GET['page'] = 0;
+	}
+	if (!empty($_POST['search'])) {
+		$_SESSION['search'] = $_POST['search'];
+	}
+
+	$num = ceil(count($_SESSION['data']) / 3);
+	echo " <div class=\"alert alert-success\"><strong>";
+	echo "Available contacts: " . count($_SESSION['data']);
+	echo '</strong></div>';
 	echo "<table class=\"table\">
               <tr>
                 <th>Firstname</th>
@@ -33,20 +44,32 @@ if (isset($_SESSION['message'])) {
                 <th>Address</th>
                 <th>Action</th>
               </tr>";
-	foreach ($_SESSION['data'] as $user) {
-		echo '
+	for ($i = $_GET['page']; $i < $_GET['page'] + 3; $i++) {
+		if (!empty($_SESSION['data'][$i])) {
+			echo '
                   <tr>
-                    <td>' . $user['name'] . '</td>
-                    <td>' . $user['surname'] . '</td>
-                    <td>' . $user['address'] . '</td>
-                    <td><ul>
-  <li class="btn "><a href="/imenik/index.php/show?' . $user['id'] . '">Edit</a> </li>
-  <li class="btn "><a href="/imenik/index.php/delete?' . $user['id'] . '">Delete</a> </li>
-</ul></td>
+                    <td>' . $_SESSION['data'][$i]['name'] . '</td>
+                    <td>' . $_SESSION['data'][$i]['surname'] . '</td>
+                    <td>' . $_SESSION['data'][$i]['address'] . '</td>
+                    <td>
+                    <ul>
+  <li class="btn btn-warning"><a style="color:white" href="/imenik/index.php/show?' . $_SESSION['data'][$i]['id'] . '">Edit</a> </li>
+  <li class="btn btn-danger"><a style="color:white" href="/imenik/index.php/delete?' . $_SESSION['data'][$i]['id'] . '">Delete</a> </li>
+</ul>
+</td>
                   </tr>';
+		}
+
 	}
+
 	echo "
                 </table>";
+	echo "</div>";
+	echo "<ul class=\"d-flex justify-content-center\">";
+	for ($i = 0; $i < $num; $i++) {
+		echo '<li class="btn btn-success"><a style= "color:white"  href="/imenik/index.php/find?page=' . $i * 3 . '&search=' . $_SESSION['search'] . '">' . $i . '</a></li>';
+	}
+	echo '</ul>';
 	unset($_SESSION['data']);
 } else {
 	if (isset($_SESSION['data'])) {

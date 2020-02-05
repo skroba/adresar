@@ -17,14 +17,15 @@ if (isset($_SESSION['message'])) {
 ?>
     <hr>
 
-       <form action="/imenik/index.php/update" method="POST">
+       <form action="/imenik/index.php/show?<?php echo $_SESSION['data'][0]['id'] ?>" method="POST">
           <div class="form-group">
             <input hidden type="text" name="id" id="id" aria-describedby="id" value="<?php echo $_SESSION['data'][0]['id']; ?>">
             <input type="text" name="name" id="name" aria-describedby="name" placeholder="Enter name" value="<?php echo $_SESSION['data'][0]['name']; ?>">
              <input type="text" name="surname" id="surname" aria-describedby="surname" placeholder="Enter surname" value="<?php echo $_SESSION['data'][0]['surname']; ?>">
               <input type="text" name="address" id="address" aria-describedby="address" placeholder="Enter adress"value="<?php echo $_SESSION['data'][0]['address']; ?>">
           </div>
-          <button  type="submit" class="btn btn-primary">Edit</button>
+          <button  type="submit" class="btn btn-warning">Update</button>
+           <li class="btn btn-danger"><a style="color:white" href="/imenik/index.php/delete?<?php echo $_SESSION['data'][0]['id'] ?>">Delete</a> </li>
         </form>
         <div>
 
